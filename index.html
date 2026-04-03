@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LAWFORGE AI — Global Legal Intelligence System</title>
+  <meta name="description" content="LAWFORGE AI is an advanced global legal intelligence engine. Get instant, country-specific legal information, penalties, rights, and actionable defense options for any legal situation worldwide." />
+  <meta name="keywords" content="legal advice, law, legal rights, penalties, global law, legal AI, LAWFORGE" />
+  <meta property="og:title" content="LAWFORGE AI — Global Legal Intelligence" />
+  <meta property="og:description" content="Understand your legal rights instantly in any country. AI-powered legal intelligence engine." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Background Orbs -->
+<div class="bg-orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ═══════════════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════════════ -->
+<div class="app-container">
+<aside class="sidebar" id="sidebar" role="navigation" aria-label="Sidebar">
+
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">⚖️</div>
+      <div>
+        <div class="logo-text">LAWFORGE</div>
+        <div class="logo-sub">Global Legal AI</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Recent Queries</div>
+  </div>
+
+  <div class="history-list" id="history-list" role="list" aria-label="Query history">
+    <div class="history-empty">
+      <div class="empty-icon">📂</div>
+      <div>No queries yet</div>
+    </div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <button class="btn-theme" id="btn-theme" aria-label="Toggle theme">
+      <span>☀️</span> Light Mode
+    </button>
+    <button class="btn-theme" id="btn-settings" aria-label="API settings" style="gap:8px;">
+      <span>🔑</span> API Key Settings
+    </button>
+    <button class="btn-clear-history" id="btn-clear-history" aria-label="Clear history">
+      🗑️ Clear History
+    </button>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════ -->
+<main class="main-content" role="main">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menubar-btn" id="menubar-btn" aria-label="Open menu">☰</button>
+      <span class="topbar-title">Legal Intelligence Engine</span>
+    </div>
+    <div class="topbar-badge">
+      <span class="live-dot"></span>
+      AI-Powered · 50+ Countries
+    </div>
+  </header>
+
+  <!-- Page Body -->
+  <div class="page-body">
+
+    <!-- Hero -->
+    <section class="hero" aria-label="Welcome">
+      <div class="hero-eyebrow">⚖️ Powered by Gemini AI</div>
+      <h1 class="hero-title">Your Global Legal<br/>Intelligence System</h1>
+      <p class="hero-sub">Instantly understand your legal rights, penalties, and defense options — in any country, for any situation.</p>
+      <div class="stats-row" role="list" aria-label="Platform stats">
+        <div class="stat-item" role="listitem">
+          <div class="stat-num">50+</div>
+          <div class="stat-lbl">Countries</div>
+        </div>
+        <div class="stat-item" role="listitem">
+          <div class="stat-num">100+</div>
+          <div class="stat-lbl">Legal Scenarios</div>
+        </div>
+        <div class="stat-item" role="listitem">
+          <div class="stat-num">9</div>
+          <div class="stat-lbl">Analysis Sections</div>
+        </div>
+        <div class="stat-item" role="listitem">
+          <div class="stat-num">Free</div>
+          <div class="stat-lbl">Always</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Query Section -->
+    <section id="query-section" aria-label="Legal query form">
+      <div class="query-card" role="form" aria-label="Enter your legal situation">
+        <div class="form-row">
+          <!-- Country -->
+          <div class="form-group">
+            <label class="form-label" for="country-select-btn">
+              🌍 Select Country
+            </label>
+            <div class="country-select-wrapper">
+              <button class="country-select-btn" id="country-select-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select country">
+                <span class="placeholder">Choose your country…</span>
+                <span class="select-arrow" id="select-arrow">▼</span>
+              </button>
+              <div class="country-dropdown" id="country-dropdown" role="listbox" aria-label="Country list">
+                <div class="country-search">
+                  <input type="text" id="country-search-input" placeholder="Search countries…" aria-label="Search countries" autocomplete="off" />
+                </div>
+                <div class="country-list" id="country-list"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Situation Category -->
+          <div class="form-group">
+            <label class="form-label" for="category-select">
+              📁 Situation Category
+            </label>
+            <select class="select-input" id="category-select" aria-label="Select situation category">
+              <option value="">— Select a category (optional) —</option>
+              <option value="Traffic">🚗 Traffic Violation</option>
+              <option value="Property">🏠 Property Dispute</option>
+              <option value="Workplace">💼 Workplace Issue</option>
+              <option value="Police">👮 Police Encounter</option>
+              <option value="Financial">💸 Financial Fraud</option>
+              <option value="Domestic">💔 Domestic Dispute</option>
+              <option value="Cyber">🌐 Cybercrime</option>
+              <option value="Medical">🏥 Medical Negligence</option>
+              <option value="Consumer">📦 Consumer Rights</option>
+              <option value="Contract">📜 Contract Breach</option>
+              <option value="Tax">🪙 Tax Issue</option>
+              <option value="Family">👶 Family Law</option>
+              <option value="Criminal">⚠️ Criminal Charge</option>
+              <option value="Immigration">✈️ Immigration</option>
+              <option value="Other">📋 Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Quick Templates -->
+        <div class="templates-label">⚡ Quick Situation Templates</div>
+        <div class="templates-grid" id="templates-grid" role="list" aria-label="Situation templates"></div>
+
+        <!-- Situation Input -->
+        <div class="form-group">
+          <label class="form-label" for="situation-input">
+            📝 Describe Your Situation
+          </label>
+          <textarea
+            class="text-input"
+            id="situation-input"
+            placeholder="e.g. I was caught speeding at 80km/h in a 50km/h zone. The officer has asked me to pay a fine on spot. What are my rights and options? Can I contest this?…"
+            maxlength="1000"
+            rows="5"
+            aria-label="Describe your legal situation"
+          ></textarea>
+          <div class="input-footer">
+            <span style="font-size:12px;color:var(--text-3);">Be specific — include dates, amounts, and context for better analysis.</span>
+            <span class="char-count" id="char-count" aria-live="polite">0 / 1000</span>
+          </div>
+        </div>
+
+        <!-- Submit Row -->
+        <div class="submit-row">
+          <div class="submit-hint">
+            🔒 Your data is processed securely. No data is stored on our servers.
+          </div>
+          <button class="btn-analyze" id="btn-analyze" aria-label="Analyze legal situation">
+            ⚡ Analyze Situation
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Loading State ──────────────────────────────────── -->
+    <div id="loading-state" role="status" aria-live="polite" aria-label="Analyzing your legal situation">
+      <div class="loading-inner">
+        <div class="spinner-ring" aria-hidden="true"></div>
+        <div class="loading-text">Analyzing your legal situation…</div>
+        <div class="loading-steps" role="list">
+          <div class="step-item" role="listitem">
+            <span class="step-dot"></span> Identifying jurisdiction &amp; legal framework
+          </div>
+          <div class="step-item" role="listitem">
+            <span class="step-dot"></span> Locating applicable laws &amp; statutes
+          </div>
+          <div class="step-item" role="listitem">
+            <span class="step-dot"></span> Calculating penalties &amp; consequences
+          </div>
+          <div class="step-item" role="listitem">
+            <span class="step-dot"></span> Compiling your rights &amp; defenses
+          </div>
+          <div class="step-item" role="listitem">
+            <span class="step-dot"></span> Generating actionable guidance
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Response State ─────────────────────────────────── -->
+    <div id="response-state" aria-label="Legal analysis results">
+
+      <!-- Urgent Warning -->
+      <div id="res-urgent" style="
+        display:none;
+        background:rgba(244,91,91,0.12);
+        border:1px solid rgba(244,91,91,0.35);
+        border-radius:12px;
+        padding:14px 18px;
+        font-size:14px;
+        font-weight:600;
+        color:#f45b5b;
+        margin-bottom:16px;
+      " role="alert"></div>
+
+      <!-- Response Header -->
+      <div class="response-header">
+        <div>
+          <div class="response-title">
+            <span id="res-country">⚖️ Legal Analysis</span>
+          </div>
+          <div class="response-meta" style="margin-top:6px;">
+            <span id="res-situation" style="font-size:13px;color:var(--text-2);max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+            <span id="res-severity" class="severity-badge severity-LOW">LOW</span>
+          </div>
+        </div>
+        <div class="action-btns">
+          <button class="btn-action" id="btn-copy" aria-label="Copy full report">📋 Copy Report</button>
+          <button class="btn-action" id="btn-copy-json" aria-label="Copy JSON data">📦 Copy JSON</button>
+          <button class="btn-action" id="btn-new-query" aria-label="Start new query">➕ New Query</button>
+          <button class="btn-action" id="btn-analyze-2" aria-label="Re-analyze">🔄 Re-analyze</button>
+        </div>
+      </div>
+
+      <!-- Sections -->
+      <div class="sections-grid" id="sections-grid" role="list" aria-label="Legal analysis sections"></div>
+
+      <!-- JSON API Panel -->
+      <div class="json-panel" role="region" aria-label="API JSON output">
+        <div class="json-panel-head">
+          <div class="json-panel-title">
+            📦 API JSON Response
+          </div>
+          <button class="btn-action" onclick="copyJson()" aria-label="Copy JSON">Copy</button>
+        </div>
+        <div class="json-body" id="json-body" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- ── Error State ────────────────────────────────────── -->
+    <div id="error-state" role="alert" aria-label="Error occurred">
+      <div class="error-card">
+        <div class="error-icon">⚠️</div>
+        <div class="error-title">Analysis Failed</div>
+        <div class="error-msg" id="error-msg">Something went wrong. Please try again.</div>
+        <button class="btn-analyze" onclick="newQuery()" style="margin:0 auto;display:flex;">
+          ↩ Try Again
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /page-body -->
+</main>
+</div><!-- /app-container -->
+
+<!-- ═══════════════════════════════════════════════
+     API KEY MODAL
+═══════════════════════════════════════════════ -->
+<div class="modal-overlay hidden" id="api-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <div class="modal-icon">🔑</div>
+    <div class="modal-title" id="modal-title">Connect Your AI Engine</div>
+    <div class="modal-sub">
+      LAWFORGE AI uses Google Gemini to power its legal intelligence. Enter your free Gemini API key to get started.
+    </div>
+    <input
+      type="password"
+      class="modal-input"
+      id="api-key-input"
+      placeholder="Paste your Gemini API key here…"
+      aria-label="Gemini API key"
+      autocomplete="off"
+    />
+    <div class="modal-hint">
+      Get your free API key at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">aistudio.google.com</a>
+    </div>
+    <button class="btn-modal-submit" id="btn-save-key" aria-label="Save API key">
+      ⚡ Activate LAWFORGE AI
+    </button>
+  </div>
+</div>
+
+<script src="countries.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
