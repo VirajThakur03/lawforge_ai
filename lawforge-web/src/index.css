@@ -1,0 +1,58 @@
+/* ─── LAWFORGE AI — Global Reset ─────────────────────────────────────── */
+/* Tailwind v4 import removed — using pure CSS design system from App.css */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #070e1e;
+  color: #dfe5fd;
+}
+
+/* ─── LAWFORGE Print / PDF Export Styles ────────────────────────── */
+@media print {
+  @page {
+    margin: 20mm;
+    size: A4;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Hide everything mostly */
+  body > div > div > header,
+  body > div > div > nav,
+  .btn-glass, .btn-primary, button {
+    display: none !important;
+  }
+
+  /* Ensure the print area is the only thing shown clearly */
+  .response-root {
+    background: white !important;
+    min-height: auto !important;
+  }
+  
+  .glass-card, .analysis-card {
+    background: transparent !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    color: black !important;
+    page-break-inside: avoid;
+  }
+
+  .gradient-text {
+    background: none !important;
+    -webkit-text-fill-color: black !important;
+    color: black !important;
+  }
+
+  #lawforge-print-area {
+    border: 1px solid #ddd !important;
+    max-height: none !important;
+    overflow: visible !important;
+    font-size: 11pt !important;
+    padding: 20px !important;
+  }
+}

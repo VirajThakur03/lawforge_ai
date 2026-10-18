@@ -1,0 +1,22 @@
+{
+  "name": "LAWFORGE AI Intelligence",
+  "short_name": "LAWFORGE",
+  "description": "Global Offline-Ready Legal Intelligence System",
+  "theme_color": "#070e1e",
+  "background_color": "#070e1e",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

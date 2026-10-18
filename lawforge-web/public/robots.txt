@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Block irrelevant crawlers from AI training datasets
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+Sitemap: https://lawforge.ai/sitemap.xml

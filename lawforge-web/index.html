@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- ── Viewport ──────────────────────────────────────────────────── -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- ── Content Security Policy ───────────────────────────────────── -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://generativelanguage.googleapis.com;
+      connect-src 'self' https://generativelanguage.googleapis.com https://raw.githubusercontent.com https://freetsa.org https://api.opentimestamps.org blob:;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: blob:;
+      worker-src 'self' blob:;
+      manifest-src 'self';
+      frame-ancestors 'none';
+    " />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(self), geolocation=(self), payment=()" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+
+    <!-- ── Primary SEO ───────────────────────────────────────────────── -->
+    <title>LAWFORGE AI — Free Global Legal Intelligence System | 186 Jurisdictions</title>
+    <meta name="description" content="LAWFORGE AI is a free, sovereign, offline-ready legal intelligence engine covering 186 jurisdictions. Get instant AI-powered legal analysis, statutory citations, evidence vault, and real-time legal updates — with zero data collection." />
+    <meta name="keywords" content="legal AI, free legal advice, law AI, global legal intelligence, offline legal tool, legal analysis, statutory citations, evidence vault, lawyer AI, LawForge" />
+    <meta name="author" content="Viraj Thakur — LAWFORGE AI" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://lawforge.ai/" />
+
+    <!-- ── Open Graph (Facebook / LinkedIn) ──────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lawforge.ai/" />
+    <meta property="og:title" content="LAWFORGE AI — Free Global Legal Intelligence" />
+    <meta property="og:description" content="AI-powered legal analysis across 186 jurisdictions. Instant statutory citations, evidence vault, and real-time legal updates. 100% private — no data collection." />
+    <meta property="og:image" content="https://lawforge.ai/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="LAWFORGE AI" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ── Twitter / X Card ──────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@LawForgeAI" />
+    <meta name="twitter:creator" content="@VirajThakur03" />
+    <meta name="twitter:title" content="LAWFORGE AI — Free Global Legal Intelligence" />
+    <meta name="twitter:description" content="AI-powered legal analysis across 186 jurisdictions. 100% offline, zero data collection. India BNS 2023, US, UK, EU, UAE & more." />
+    <meta name="twitter:image" content="https://lawforge.ai/og-image.png" />
+
+    <!-- ── Structured Data (JSON-LD) ─────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "LAWFORGE AI",
+      "url": "https://lawforge.ai",
+      "description": "Free global legal intelligence system powered by AI. Covers 186 jurisdictions with real-time statutory analysis, evidence vault, and sovereign offline mode.",
+      "applicationCategory": "LegalService",
+      "operatingSystem": "Any (Web, PWA)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Viraj Thakur",
+        "url": "https://github.com/VirajThakur03"
+      },
+      "featureList": [
+        "186 jurisdiction legal database",
+        "Offline sovereign mode",
+        "Zero data collection",
+        "Real-time statutory updates",
+        "Evidence vault with SHA-256 hashing",
+        "Multilingual support"
+      ]
+    }
+    </script>
+
+    <!-- ── PWA ───────────────────────────────────────────────────────── -->
+    <meta name="theme-color" content="#06080f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LAWFORGE AI" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- ── Google Fonts ───────────────────────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+

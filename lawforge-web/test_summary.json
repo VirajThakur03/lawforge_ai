@@ -1,0 +1,26 @@
+[
+  {
+    "name": "1. India Speeding",
+    "status": "PASS"
+  },
+  {
+    "name": "2. USA Contract",
+    "status": "PASS"
+  },
+  {
+    "name": "3. Vague Input",
+    "status": "FAIL: page.waitForSelector: Timeout 8000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#response-state') to be visible\u001b[22m\n"
+  },
+  {
+    "name": "4. Missing Country",
+    "status": "FAIL: page.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.btn-analyze')\u001b[22m\n"
+  },
+  {
+    "name": "5. UK Arrest",
+    "status": "PASS"
+  },
+  {
+    "name": "6. Bribe Attempt",
+    "status": "PASS"
+  }
+]

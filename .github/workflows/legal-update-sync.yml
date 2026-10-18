@@ -1,0 +1,58 @@
+name: Continuous Legal Database Sync & Validation
+
+on:
+  schedule:
+    # Run every morning at 00:00 UTC to sync latest gazette releases and statutory updates
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    # Allow manual trigger on demand
+    inputs:
+      force_sync:
+        description: 'Force full re-indexing of all global jurisdictions'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  legal-sync-and-test:
+    name: Sync Legal Statutes & Run Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: lawforge-web/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: lawforge-web
+        run: npm ci
+
+      - name: Execute Legal Statutory Scraper & OTA Sync
+        run: node scripts/scrape_legal_updates.mjs
+
+      - name: Run Legal Engine Test Suite
+        working-directory: lawforge-web
+        run: node test_suite.mjs
+
+      - name: Run Cryptographic & Sovereign Security Audit
+        working-directory: lawforge-web
+        run: node test_security.mjs
+
+      - name: Build Web Application
+        working-directory: lawforge-web
+        run: npm run build
+
+      - name: Commit & Push Updated Legal Database
+        run: |
+          git config --global user.name "lawforge-bot"
+          git config --global user.email "bot@lawforge.ai"
+          git add lawforge-web/public/data/laws_bundle.json shared/data/laws_bundle.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(legal-db): daily statutory update [skip ci]" && git push)
+
