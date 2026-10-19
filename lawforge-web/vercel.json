@@ -37,8 +37,5 @@
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
     }
-  ],
-  "env": {
-    "VITE_GEMINI_API_KEY": "@gemini_api_key"
-  }
+  ]
 }
