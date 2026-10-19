@@ -1,16 +1,31 @@
-# React + Vite
+# ⚖️ LAWFORGE AI — Web Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This directory contains the production React 19 + Vite web application and client-side legal engine for **LAWFORGE AI**.
 
-Currently, two official plugins are available:
+> **Note:** For complete project architecture, security specifications, test suites, and documentation, refer to the [Root README](../README.md).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Quick Start
 
-## React Compiler
+```bash
+# Install dependencies
+npm install
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Start local dev server
+npm run dev
 
-## Expanding the ESLint configuration
+# Run full functional test suite (166 tests)
+node test_all.mjs
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Run cryptographic & security audit (33 tests)
+node test_security.mjs
+
+# Build production PWA bundle
+npm run build
+```
+
+## Key Technologies
+- **Framework**: React 19, Vite, TailwindCSS
+- **State & Transitions**: Zustand, Framer Motion
+- **PWA & Offline Runtime**: Workbox, `vite-plugin-pwa`
+- **Client Security**: Web Crypto API (AES-256-GCM, SHA-256, PBKDF2)
+- **Document Generation**: jsPDF, html2canvas, QRCode
