@@ -99,6 +99,8 @@ export const RateLimiter = {
   reset(actionKey = 'ai_query') {
     try {
       sessionStorage.removeItem(`${STORAGE_KEY}_${actionKey}`);
-    } catch {}
+    } catch (_err) {
+      // Ignore sessionStorage exceptions in private browsing
+    }
   }
 };

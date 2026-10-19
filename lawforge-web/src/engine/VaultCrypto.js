@@ -1,4 +1,5 @@
 // src/engine/VaultCrypto.js
+/* global Buffer */
 /**
  * LAWFORGE AI — Sovereign Vault Cryptographic Engine
  * Provides End-to-End AES-256-GCM encryption with PBKDF2 key derivation
@@ -68,7 +69,13 @@ export const VaultCrypto = {
     for (let i = 0; i < combined.byteLength; i++) {
       binary += String.fromCharCode(combined[i]);
     }
-    return (typeof btoa !== 'undefined') ? btoa(binary) : Buffer.from(combined).toString('base64');
+    if (typeof btoa !== 'undefined') {
+      return btoa(binary);
+    }
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(combined).toString('base64');
+    }
+    return '';
   },
 
   /**
@@ -87,8 +94,10 @@ export const VaultCrypto = {
       for (let i = 0; i < binary.length; i++) {
         combined[i] = binary.charCodeAt(i);
       }
-    } else {
+    } else if (typeof Buffer !== 'undefined') {
       combined = new Uint8Array(Buffer.from(base64Payload, 'base64'));
+    } else {
+      combined = new Uint8Array(0);
     }
 
     const minLength = this.SALT_BYTE_LENGTH + this.IV_BYTE_LENGTH;

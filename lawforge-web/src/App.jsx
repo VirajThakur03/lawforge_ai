@@ -7,6 +7,7 @@ import { Toast } from './components/Toast'
 import { useStore } from './store'
 import { useEffect, useState, lazy, Suspense } from 'react'
 import { SessionManager } from './engine/SessionManager'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import './App.css'
 
 // Lazy-loaded heavy modules for optimal initial load (Task 11.2)
@@ -129,11 +130,13 @@ function App() {
           />
         )}
         {view === 'dashboard' && isEnterpriseMode && (
-          <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface)', color: 'var(--secondary)' }}>Loading Enterprise OS...</div>}>
-            <EnterpriseDashboard 
-              key="enterprise-dashboard" 
-            />
-          </Suspense>
+          <ErrorBoundary onReset={() => { setIsEnterpriseMode(false); setView('dashboard'); }}>
+            <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface)', color: 'var(--secondary)' }}>Loading Enterprise OS...</div>}>
+              <EnterpriseDashboard 
+                key="enterprise-dashboard" 
+              />
+            </Suspense>
+          </ErrorBoundary>
         )}
         {view === 'response' && (
           <ResponseSection 

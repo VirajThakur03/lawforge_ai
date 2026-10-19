@@ -1,6 +1,6 @@
 // src/phase5/enterprise/EnterpriseDashboard.jsx
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BookMarked, Briefcase, FileText, Search, UserCheck, Play, Square, Plus, DollarSign, Download, Clipboard, Trash2, CheckCircle, Clock, Scale, Home, ArrowLeft, Shield } from 'lucide-react';
 import { useStore } from '../../store';
 import { DocumentUploader } from '../../phase4/document-ai/DocumentUploader';
@@ -44,21 +44,23 @@ export function EnterpriseDashboard() {
   const loadAllMatters = useCallback(async () => {
     try {
       const all = await MattersDatabase.getMatters();
-      setMatters(all);
-      if (all.length > 0 && !selectedMatter) {
-        setSelectedMatter(all[0]);
+      if (Array.isArray(all)) {
+        setMatters(all);
+        if (all.length > 0) {
+          setSelectedMatter(prev => prev || all[0]);
+        }
       }
     } catch (e) {
       console.error("Failed to load matters", e);
     }
-  }, [selectedMatter]);
+  }, []);
 
   const loadMatterRelations = useCallback(async (matterId) => {
     try {
       const logs = await MattersDatabase.getBillings(matterId);
       const docs = await MattersDatabase.getDocuments(matterId);
-      setBillingLogs(logs);
-      setMatterDocs(docs);
+      setBillingLogs(Array.isArray(logs) ? logs : []);
+      setMatterDocs(Array.isArray(docs) ? docs : []);
     } catch (e) {
       console.error("Failed to load relations", e);
     }
@@ -68,16 +70,16 @@ export function EnterpriseDashboard() {
   useEffect(() => {
     let isSubscribed = true;
     MattersDatabase.getMatters().then(all => {
-      if (isSubscribed) {
+      if (isSubscribed && Array.isArray(all)) {
         setMatters(all);
-        if (all.length > 0 && !selectedMatter) {
+        if (all.length > 0) {
           setSelectedMatter(all[0]);
         }
       }
     }).catch(err => console.error("Failed to load matters", err));
 
     return () => { isSubscribed = false; };
-  }, [selectedMatter]);
+  }, []);
 
   // Reload selected matter relations when selectedMatter changes
   useEffect(() => {
