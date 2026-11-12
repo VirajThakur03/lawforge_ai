@@ -99,4 +99,28 @@ This roadmap contains the engineering and UI/UX tasks to elevate LAWFORGE AI int
   - Integrated Web Speech API speech synthesis (TTS) for dynamic audio oral argument sparring in `AdversarialSimulator.jsx`.
   - Implemented 3-member judicial bench persona (`multi_agent_bench`) featuring Prosecutor statutory objections, Presiding Judge rulings ("Sustained" / "Overruled"), and Defense Co-Counsel tactical advice.
 
+---
+
+## Phase 8: Comprehensive Production Hardening & Global Statutory Audit
+- [x] **Task 8.1: Mobile Navigation Drawer & Responsive Layout (`LF-TASK-001`)**
+  - Added slide-out navigation drawer with hamburger toggle button and backdrop overlay on viewports $\le 768\text{px}$ in `DashboardSection.jsx` and `glass.css`.
+- [x] **Task 8.2: 100% Offline Local PDF.js Worker Bundling (`LF-TASK-002`)**
+  - Bundled `pdf.worker.min.mjs` locally into `public/workers/pdf.worker.min.mjs` (1.24 MB), removing external Cloudflare CDN reliance in `DocumentAnalyzer.js` and `PDFRenderer.js`.
+- [x] **Task 8.3: Secure Gemini API Key Transport via HTTP Headers (`LF-TASK-003`)**
+  - Migrated API key transmission across all 4 inference endpoints in `AIEngine.js` from URL query parameter (`?key=...`) to `x-goog-api-key` header to eliminate credential logging.
+- [x] **Task 8.4: Multi-Page Contract Truncation Detection & Warning (`LF-TASK-004`)**
+  - Added document page inspection in `DocumentAnalyzer.js` and warning toast in `DashboardSection.jsx` alerting users when documents exceed 5 pages.
+- [x] **Task 8.5: True Encrypted File Blob Storage in Evidence Vault (`LF-TASK-005`)**
+  - Implemented persistent IndexedDB encrypted blob storage (`LawForgeEvidenceBlobs`) in `EvidenceVault.jsx` with one-click decrypted file download and deletion.
+- [x] **Task 8.6: Fallback Empty State for Direct Route Access (`LF-TASK-006`)**
+  - Replaced blank crash screen in `ResponseSection.jsx` with a styled guidance card providing a direct button back to the Legal Workspace.
+- [x] **Task 8.7: Demonstration Status Disclosures for L2 Ledger & TSA Proofs (`LF-TASK-007`)**
+  - Added explicit visual badges and disclosures in `EvidenceVault.jsx` clarifying simulated Polygon L2 and RFC-3161 proof demonstration status.
+- [x] **Task 8.8: Expanded Statutory Coverage for Sparse Jurisdictions (`LF-TASK-008`)**
+  - Added Workplace, Consumer, and Property legal codes for Australia (`AU`), Canada (`CA`), Singapore (`SG`), Bangladesh (`BD`), Malaysia (`MY`), and New Zealand (`NZ`) in `laws_bundle.js`. Synchronized OTA payload (`laws_bundle.json`) with SHA-256 verification.
+- [x] **Task 8.9: Codebase Pruning & Dead File Deletion (`LF-TASK-009`)**
+  - Safely deleted orphaned unused component `GlobalHeader.jsx`.
+- [x] **Task 8.10: Production Content Security Policy (CSP) Hardening (`LF-TASK-010`)**
+  - Deployed strict CSP headers in `vercel.json` governing WebAssembly, Web Workers, scripts, styles, and API connections.
+
 
