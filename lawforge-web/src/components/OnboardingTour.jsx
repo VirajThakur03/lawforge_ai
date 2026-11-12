@@ -9,7 +9,7 @@ const STEPS = [
     step: 1,
     title: 'Select Sovereign Jurisdiction',
     icon: <Globe size={24} style={{ color: 'var(--secondary)' }} />,
-    description: 'LAWFORGE AI spans 195+ jurisdictions. Choose your nation or region to lock legal reasoning into exact local statutes, criminal codes, and employment laws.',
+    description: 'LAWFORGE AI spans 50+ sovereign jurisdictions. Choose your nation or region to lock legal reasoning into exact local statutes, criminal codes, and employment laws.',
     tip: 'Tip: You can use Cmd+K or Ctrl+K anytime to quickly jump between countries.'
   },
   {

@@ -37,16 +37,6 @@ export default defineConfig({
             },
           },
           {
-            // Gemini API — NetworkFirst so we always try live, fallback to cache
-            urlPattern: /^https:\/\/generativelanguage\.googleapis\.com\/.*/i,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'gemini-api-cache',
-              expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 },
-              networkTimeoutSeconds: 10,
-            },
-          },
-          {
             // Legal data bundle (OTA sync endpoint)
             urlPattern: /^https:\/\/raw\.githubusercontent\.com\/.*/i,
             handler: 'NetworkFirst',
@@ -71,7 +61,7 @@ export default defineConfig({
       manifest: {
         name: 'LAWFORGE AI Intelligence',
         short_name: 'LAWFORGE',
-        description: 'Free global legal intelligence system — 186 jurisdictions, offline-ready, zero data collection.',
+        description: 'Free global legal intelligence system — 50+ sovereign jurisdictions, offline-ready, zero data collection.',
         theme_color: '#070e1e',
         background_color: '#070e1e',
         display: 'standalone',

@@ -18,7 +18,7 @@ export default {
       watch_demo: "▶ डेमो पहा"
     },
     trust: {
-      countries: "🌍 195+ देश",
+      countries: "🌍 50+ सार्वभौम देश",
       offline: "🔒 100% ऑफलाइन सक्षम",
       hybrid: "🤖 एआय + स्थानिक हायब्रिड",
       latency: "⚡ शून्य विलंब",

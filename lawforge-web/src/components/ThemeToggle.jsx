@@ -17,16 +17,17 @@ export function ThemeToggle({ className = '', variant = 'pill' }) {
           { key: 'dark', icon: Moon, label: 'Dark' },
           { key: 'light', icon: Sun, label: 'Light' },
           { key: 'system', icon: Monitor, label: 'System' }
-        ].map(({ key, icon: Icon, label }) => {
-          const isActive = theme === key
+        ].map(item => {
+          const isActive = theme === item.key
+          const IconComponent = item.icon
           return (
             <button
-              key={key}
+              key={item.key}
               onClick={() => {
-                setTheme(key)
-                showToast(`Theme: ${label}`, 'info', 2000)
+                setTheme(item.key)
+                showToast(`Theme: ${item.label}`, 'info', 2000)
               }}
-              aria-label={`Switch to ${label} theme`}
+              aria-label={`Switch to ${item.label} theme`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -42,8 +43,8 @@ export function ThemeToggle({ className = '', variant = 'pill' }) {
                 border: 'none'
               }}
             >
-              <Icon size={12} />
-              <span>{label}</span>
+              <IconComponent size={12} />
+              <span>{item.label}</span>
             </button>
           )
         })}

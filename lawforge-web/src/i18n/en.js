@@ -18,7 +18,7 @@ export default {
       watch_demo: "▶ Watch Demo"
     },
     trust: {
-      countries: "🌍 195+ Countries",
+      countries: "🌍 50+ Sovereign Countries",
       offline: "🔒 100% Offline Capable",
       hybrid: "🤖 AI + Local Hybrid",
       latency: "⚡ Zero Latency",

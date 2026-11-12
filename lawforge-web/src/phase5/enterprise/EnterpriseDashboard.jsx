@@ -38,12 +38,14 @@ export function EnterpriseDashboard() {
   const [billingLogs, setBillingLogs] = useState([]);
   const [matterDocs, setMatterDocs] = useState([]);
   const [feedbackMsg, setFeedbackMsg] = useState('');
+  const [isMemoryFallback, setIsMemoryFallback] = useState(false);
 
   const timerRef = useRef(null);
 
   const loadAllMatters = useCallback(async () => {
     try {
       const all = await MattersDatabase.getMatters();
+      setIsMemoryFallback(MattersDatabase.isMemoryFallbackActive());
       if (Array.isArray(all)) {
         setMatters(all);
         if (all.length > 0) {
@@ -70,10 +72,13 @@ export function EnterpriseDashboard() {
   useEffect(() => {
     let isSubscribed = true;
     MattersDatabase.getMatters().then(all => {
-      if (isSubscribed && Array.isArray(all)) {
-        setMatters(all);
-        if (all.length > 0) {
-          setSelectedMatter(all[0]);
+      if (isSubscribed) {
+        setIsMemoryFallback(MattersDatabase.isMemoryFallbackActive());
+        if (Array.isArray(all)) {
+          setMatters(all);
+          if (all.length > 0) {
+            setSelectedMatter(all[0]);
+          }
         }
       }
     }).catch(err => console.error("Failed to load matters", err));
@@ -257,6 +262,26 @@ export function EnterpriseDashboard() {
 
       {/* Main Container */}
       <div style={{ maxWidth: '1100px', width: '100%', margin: '0 auto', paddingTop: '2rem', paddingBottom: '3rem', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
+        
+        {isMemoryFallback && (
+          <div style={{
+            marginBottom: '1.5rem',
+            padding: '0.85rem 1.25rem',
+            borderRadius: '12px',
+            background: 'rgba(245, 158, 11, 0.1)',
+            border: '1px solid rgba(245, 158, 11, 0.3)',
+            color: '#fbbf24',
+            fontSize: '0.82rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.65rem'
+          }}>
+            <Shield size={18} style={{ flexShrink: 0, color: '#f59e0b' }} />
+            <div>
+              <strong>Private / Restricted Browsing Warning:</strong> IndexedDB is unavailable in this environment. Matters, client files, and billing entries are saved in memory only and will not persist after browser refresh.
+            </div>
+          </div>
+        )}
         
         {/* ── Enterprise Header ── */}
         <motion.div {...fadeUp(0.1)} style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>

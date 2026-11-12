@@ -15,8 +15,8 @@ const FEATURES = [
   {
     icon: <Globe size={20} />,
     color: '#00e3fd',
-    title: '195 Jurisdictions',
-    desc: 'Covers every sovereign legal system including Common Law, Civil Law, Sharia, and Hybrid frameworks.',
+    title: '50+ Jurisdictions',
+    desc: 'Deep statutory grounding across Common Law, Civil Law, Sharia, and Hybrid legal frameworks.',
   },
   {
     icon: <Cpu size={20} />,
@@ -28,7 +28,7 @@ const FEATURES = [
     icon: <Shield size={20} />,
     color: '#4ade80',
     title: 'Evidence Vault',
-    desc: 'RFC-3161 timestamped evidence vault with SHA-256 hashing and encrypted local storage.',
+    desc: 'Cryptographic evidence vault with SHA-256 integrity hash-chains and local AES-256-GCM encryption.',
   },
   {
     icon: <Lock size={20} />,
@@ -39,8 +39,8 @@ const FEATURES = [
 ]
 
 const STATS = [
-  { value: '195+', label: 'Countries' },
-  { value: '< 80ms', label: 'Avg. Latency' },
+  { value: '50+', label: 'Countries' },
+  { value: '< 80ms', label: 'Local Latency' },
   { value: '100%', label: 'Offline-Ready' },
   { value: 'AES-256', label: 'Encryption' },
 ]
@@ -85,7 +85,7 @@ function TypewriterText({ texts, speed = 60, pause = 2000 }) {
   )
 }
 
-export function HeroSection({ onOpenCommandPalette, onOpenShortcuts }) {
+export function HeroSection({ onOpenCommandPalette, onOpenShortcuts, onOpenLegal }) {
   const { setView, setActiveTab, setIsEnterpriseMode } = useStore()
   const { t } = useTranslation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -210,6 +210,9 @@ export function HeroSection({ onOpenCommandPalette, onOpenShortcuts }) {
             { label: 'Legal Vault', action: () => { setIsEnterpriseMode(false); setActiveTab('vault'); setView('dashboard'); setMobileMenuOpen(false); } },
             { label: 'Jurisdictions', action: () => { setIsEnterpriseMode(false); setActiveTab('countries'); setView('dashboard'); setMobileMenuOpen(false); } },
             { label: 'Enterprise OS', action: () => { setIsEnterpriseMode(true); setView('dashboard'); setMobileMenuOpen(false); } },
+            { label: 'Privacy Policy', action: () => { if (onOpenLegal) onOpenLegal('privacy'); setMobileMenuOpen(false); } },
+            { label: 'Terms of Service', action: () => { if (onOpenLegal) onOpenLegal('terms'); setMobileMenuOpen(false); } },
+            { label: 'Security & RFC 9116', action: () => { if (onOpenLegal) onOpenLegal('security'); setMobileMenuOpen(false); } },
           ].map(item => (
             <button key={item.label} onClick={item.action} className="btn-glass" style={{ width: '100%', textAlign: 'left', borderRadius: '10px' }}>
               {item.label}
@@ -295,18 +298,21 @@ export function HeroSection({ onOpenCommandPalette, onOpenShortcuts }) {
             <span className="gradient-text">{t('hero.title_3')}</span>
           </motion.h1>
 
-          <motion.p {...fadeUp(0.32)} style={{ fontSize: '1rem', color: 'var(--on-surface-variant)', lineHeight: 1.7, maxWidth: '440px' }}>
+          <motion.div {...fadeUp(0.32)} style={{ fontSize: '1rem', color: 'var(--on-surface-variant)', lineHeight: 1.7, maxWidth: '440px' }}>
+            <p style={{ display: 'none' }} aria-hidden="false">
+              Your sovereign AI legal counsel. No cloud. No compromise. Analyze laws across 50+ jurisdictions instantly. Offline-first. Air-gapped. Privacy absolute.
+            </p>
             <TypewriterText
               texts={[
                 'Your sovereign AI legal counsel. No cloud. No compromise.',
-                'Analyze laws across 195 jurisdictions instantly.',
+                'Analyze laws across 50+ jurisdictions instantly.',
                 'Offline-first. Air-gapped. Privacy absolute.',
-                'RFC-3161 timestamped evidence. Battle-tested defense.'
+                'Cryptographic evidence vault. Battle-tested defense.'
               ]}
               speed={45}
               pause={2500}
             />
-          </motion.p>
+          </motion.div>
 
           <motion.div {...fadeUp(0.4)} style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
             <button
@@ -411,10 +417,13 @@ export function HeroSection({ onOpenCommandPalette, onOpenShortcuts }) {
         <span style={{ fontSize: '0.78rem', color: 'var(--on-surface-variant)', opacity: 0.6 }}>
           © 2026 LAWFORGE AI · Sovereign Legal Terminal · Built on WebGPU + WASM
         </span>
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
           {[
-            { label: 'Vault', action: () => { setIsEnterpriseMode(false); setActiveTab('vault'); setView('dashboard'); } },
-            { label: 'Enterprise', action: () => { setIsEnterpriseMode(true); setView('dashboard'); } },
+            { label: 'Legal Vault', action: () => { setIsEnterpriseMode(false); setActiveTab('vault'); setView('dashboard'); } },
+            { label: 'Enterprise OS', action: () => { setIsEnterpriseMode(true); setView('dashboard'); } },
+            { label: 'Privacy Policy', action: () => { if (onOpenLegal) onOpenLegal('privacy'); } },
+            { label: 'Terms of Service', action: () => { if (onOpenLegal) onOpenLegal('terms'); } },
+            { label: 'Security & RFC 9116', action: () => { if (onOpenLegal) onOpenLegal('security'); } },
           ].map(link => (
             <button
               key={link.label}

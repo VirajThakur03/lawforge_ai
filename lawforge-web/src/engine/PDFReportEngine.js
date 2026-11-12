@@ -27,7 +27,7 @@ export const PDFReportEngine = {
       let y = 16;
 
       const primary = [110, 68, 240]; // Deep Purple
-      const secondary = [0, 168, 204]; // Cyan
+      const _secondary = [0, 168, 204]; // Cyan
       const darkText = [17, 24, 39]; // Slate 900
       const mutedText = [75, 85, 99]; // Slate 600
 

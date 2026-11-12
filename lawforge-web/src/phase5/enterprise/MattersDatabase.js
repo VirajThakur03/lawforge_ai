@@ -15,6 +15,10 @@ export class MattersDatabase {
   static db = null;
   static isMemoryFallback = false;
 
+  static isMemoryFallbackActive() {
+    return this.isMemoryFallback;
+  }
+
   static async init() {
     if (this.db) return this.db;
     if (this.isMemoryFallback) return null;

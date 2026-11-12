@@ -26,7 +26,7 @@ import { LegalDisclaimerCard } from './LegalDisclaimerCard'
 import { LawOfTheDay } from './LawOfTheDay'
 import { JurisdictionExamples } from './JurisdictionExamples'
 
-export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts }) {
+export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts, onOpenLegal }) {
   const { 
     selectedCountry, setSelectedCountry, 
     situation, setSituation, 
@@ -1314,8 +1314,41 @@ export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts }) {
                       </button>
                     </div>
                     <p style={{ fontSize: '0.8rem', color: 'var(--on-surface-variant)', margin: 0, lineHeight: 1.5 }}>
-                      Review how LAWFORGE AI pairs on-device WebGPU reasoning, tamper-evident evidence notarization, and statutory grounding across 195+ jurisdictions.
+                      Review how LAWFORGE AI pairs on-device WebGPU reasoning, tamper-evident evidence notarization, and statutory grounding across 50+ sovereign jurisdictions.
                     </p>
+                  </div>
+
+                  {/* Legal & Trust Center (RFC 9116 / GDPR / DPDP) */}
+                  <div className="glass-card" style={{ padding: '1.5rem', border: '1px solid rgba(186,158,255,0.15)' }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--on-surface)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      ⚖️ Legal, Privacy & Trust Center
+                    </h3>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--on-surface-variant)', marginBottom: '1rem', lineHeight: 1.5 }}>
+                      LAWFORGE AI is built on a zero-trust, local-first architecture. All legal analysis and cryptographic vault operations are governed by transparent policies.
+                    </p>
+                    <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
+                      <button
+                        onClick={() => onOpenLegal && onOpenLegal('privacy')}
+                        className="btn-glass"
+                        style={{ fontSize: '0.78rem', padding: '0.45rem 0.9rem' }}
+                      >
+                        Privacy Policy
+                      </button>
+                      <button
+                        onClick={() => onOpenLegal && onOpenLegal('terms')}
+                        className="btn-glass"
+                        style={{ fontSize: '0.78rem', padding: '0.45rem 0.9rem' }}
+                      >
+                        Terms of Service
+                      </button>
+                      <button
+                        onClick={() => onOpenLegal && onOpenLegal('security')}
+                        className="btn-glass"
+                        style={{ fontSize: '0.78rem', padding: '0.45rem 0.9rem' }}
+                      >
+                        Security & RFC 9116
+                      </button>
+                    </div>
                   </div>
 
                 </div>

@@ -1,0 +1,8 @@
+Contact: mailto:security@lawforge.ai
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://lawforge-ai-4wzf.vercel.app/.well-known/security.txt
+Policy: https://lawforge-ai-4wzf.vercel.app/security
+Acknowledgments: https://github.com/VirajThakur03/lawforge_ai/blob/main/README.md
+Encryption: https://lawforge-ai-4wzf.vercel.app/security
+

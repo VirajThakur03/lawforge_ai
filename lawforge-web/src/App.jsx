@@ -15,9 +15,19 @@ const EnterpriseDashboard = lazy(() => import('./phase5/enterprise/EnterpriseDas
 const WitnessReceiver = lazy(() => import('./phase6/panic/WitnessReceiver').then(m => ({ default: m.WitnessReceiver })))
 const CommandPalette = lazy(() => import('./components/CommandPalette').then(m => ({ default: m.CommandPalette })))
 const KeyboardShortcutsPanel = lazy(() => import('./components/KeyboardShortcutsPanel').then(m => ({ default: m.KeyboardShortcutsPanel })))
+const LegalPagesModal = lazy(() => import('./components/LegalPagesModal').then(m => ({ default: m.LegalPagesModal })))
 
 function App() {
   const { view, isEnterpriseMode, setIsEnterpriseMode, setGeoZone, featureFlags, showToast, setActiveTab, setView } = useStore()
+  const [legalModalTab, setLegalModalTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const p = window.location.pathname.toLowerCase();
+      if (p.includes('/privacy')) return 'privacy';
+      if (p.includes('/terms')) return 'terms';
+      if (p.includes('/security')) return 'security';
+    }
+    return null;
+  });
   const [isWitnessMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
@@ -120,6 +130,7 @@ function App() {
             key="hero" 
             onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} 
             onOpenShortcuts={() => setIsShortcutsPanelOpen(true)}
+            onOpenLegal={(tab) => setLegalModalTab(tab)}
           />
         )}
         {view === 'dashboard' && !isEnterpriseMode && (
@@ -127,6 +138,7 @@ function App() {
             key="dashboard" 
             onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} 
             onOpenShortcuts={() => setIsShortcutsPanelOpen(true)}
+            onOpenLegal={(tab) => setLegalModalTab(tab)}
           />
         )}
         {view === 'dashboard' && isEnterpriseMode && (
@@ -163,6 +175,17 @@ function App() {
           <KeyboardShortcutsPanel
             isOpen={isShortcutsPanelOpen}
             onClose={() => setIsShortcutsPanelOpen(false)}
+          />
+        </Suspense>
+      )}
+
+      {/* Global Legal & Trust Center Modal */}
+      {legalModalTab && (
+        <Suspense fallback={null}>
+          <LegalPagesModal
+            isOpen={!!legalModalTab}
+            initialTab={legalModalTab}
+            onClose={() => setLegalModalTab(null)}
           />
         </Suspense>
       )}
