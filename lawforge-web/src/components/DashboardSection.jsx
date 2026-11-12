@@ -6,7 +6,7 @@ import { AIEngine } from '../engine/AIEngine'
 import { 
   Scale, Search, Mic, Send, ChevronDown, Clock, Globe, Settings, 
   FileText, Zap, X, Home, Briefcase, Download, Trash2, ArrowRight,
-  Shield, Check, ExternalLink, RefreshCw, AlertTriangle, Keyboard
+  Shield, Check, ExternalLink, RefreshCw, AlertTriangle, Keyboard, Menu
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from './LanguageSwitcher'
@@ -56,6 +56,7 @@ export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts, onOpen
   const [error, setError] = useState(null)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
   const [showTour, setShowTour] = useState(false)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
 
   const voiceProcessor = useRef(null)
   const textareaRef = useRef(null)
@@ -195,10 +196,15 @@ export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts, onOpen
 
   const handleDocumentScanned = (docAnalysis) => {
     setDocAnalysisResult(docAnalysis);
+    const isTruncated = docAnalysis.text?.includes('[NOTICE: Document contains');
     const analysisStr = `=== Document Scanned: ${docAnalysis.fileName} ===\n\nTL;DR Summary:\n- ${(docAnalysis.tldr || []).join('\n- ')}\n\nToxic Clauses Detected: ${(docAnalysis.toxicClauses || []).length}\n`;
     setSituation(analysisStr);
     textareaRef.current?.focus();
-    showToast('Contract scanned and extracted', 'success');
+    if (isTruncated) {
+      showToast('Contract extracted (pages 1–5 analyzed for on-device performance)', 'warning');
+    } else {
+      showToast('Contract scanned and extracted', 'success');
+    }
   };
 
   const handleExportHistoryJSON = () => {
@@ -225,8 +231,17 @@ export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts, onOpen
           <AnalysisLoadingOverlay country={selectedCountry} situation={situation} />
         )}
       </AnimatePresence>
+      {/* ── Mobile Sidebar Overlay ── */}
+      {mobileSidebarOpen && (
+        <div 
+          className="sidebar-overlay visible" 
+          onClick={() => setMobileSidebarOpen(false)}
+          style={{ display: 'block', zIndex: 90 }}
+        />
+      )}
+
       {/* ── Sidebar ── */}
-      <aside className="sidebar" style={{ zIndex: 60 }}>
+      <aside className={`sidebar ${mobileSidebarOpen ? 'mobile-open' : ''}`} style={{ zIndex: 100 }}>
         {/* Brand Header */}
         <div 
           onClick={() => setView('hero')}
@@ -267,7 +282,10 @@ export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts, onOpen
             <div 
               key={n.id} 
               className={`sidebar-item ${activeTab === n.id ? 'active' : ''}`} 
-              onClick={() => setActiveTab(n.id)}
+              onClick={() => {
+                setActiveTab(n.id);
+                setMobileSidebarOpen(false);
+              }}
             >
               <span className="sidebar-icon">{n.icon}</span>
               <span>{n.label}</span>
@@ -348,8 +366,23 @@ export function DashboardSection({ onOpenCommandPalette, onOpenShortcuts, onOpen
 
         {/* Top bar */}
         <header style={{ padding: '1rem 2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(186,158,255,0.05)', position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(16px)', background: 'rgba(7, 14, 30, 0.85)' }}>
-          {/* Breadcrumb */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {/* Breadcrumb & Mobile Drawer Trigger */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <button
+              onClick={() => setMobileSidebarOpen(prev => !prev)}
+              className="btn-glass mobile-only-btn"
+              style={{
+                padding: '0.35rem 0.55rem',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '8px',
+                color: 'var(--on-surface)',
+                cursor: 'pointer'
+              }}
+              aria-label="Toggle Navigation Drawer"
+            >
+              <Menu size={18} />
+            </button>
             <span onClick={() => setView('hero')} style={{ cursor: 'pointer', fontSize: '0.78rem', color: 'var(--on-surface-variant)' }}>Home</span>
             <span style={{ color: 'var(--on-surface-variant)', opacity: 0.4 }}>›</span>
             <span className="label-sm" style={{ color: 'var(--primary)' }}>{t('sidebar.' + activeTab)}</span>

@@ -1,9 +1,10 @@
 // src/phase6/redline/PDFRenderer.js
 import * as pdfjsLib from 'pdfjs-dist';
 
-// Reuse the same CDN worker path used by DocumentAnalyzer.js
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+// Offline local worker path
+if (typeof window !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+}
 
 export class PDFRenderer {
   /**

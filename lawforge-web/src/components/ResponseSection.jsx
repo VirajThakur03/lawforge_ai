@@ -97,7 +97,28 @@ export function ResponseSection({ onOpenCommandPalette, onOpenShortcuts }) {
     }
   }
 
-  if (!response) return null
+  if (!response) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--surface)', padding: '2rem', textAlign: 'center' }}>
+        <div style={{ width: 64, height: 64, borderRadius: '16px', background: 'rgba(186,158,255,0.1)', border: '1px solid rgba(186,158,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem', color: 'var(--primary)' }}>
+          <Scale size={32} />
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '0.5rem' }}>
+          No Active Legal Analysis in Memory
+        </h2>
+        <p style={{ color: 'var(--on-surface-variant)', fontSize: '0.9rem', maxWidth: '420px', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+          You navigated to the intelligence report view without an active query. Select your jurisdiction and describe your legal situation to generate a statutory dossier.
+        </p>
+        <button
+          onClick={() => setView('dashboard')}
+          className="btn-primary"
+          style={{ padding: '0.75rem 1.75rem', borderRadius: '12px', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+        >
+          <Home size={16} /> Return to Legal Workspace
+        </button>
+      </div>
+    );
+  }
 
   const sev = (response.severity || 'MEDIUM').toUpperCase()
   const sevColor = sev === 'HIGH' ? '#ef4444' : sev === 'LOW' ? '#22c55e' : '#f59e0b'

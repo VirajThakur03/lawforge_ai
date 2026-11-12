@@ -56,6 +56,8 @@ ios/DerivedData/
 .antigravity/
 .code-review-graph/
 .system_generated/
+.agents/
+skills-lock.json
 dev
 eslint_report.txt
 
@@ -76,3 +78,9 @@ coverage/
 .turbo/
 .cache/
 .eslintcache
+
+# Scratch and Temporary
+scratch/
+.aider-desk/
+brag-output/
+lawforge-web/capture_site.mjs

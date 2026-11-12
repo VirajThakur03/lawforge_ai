@@ -2,8 +2,10 @@
 import * as pdfjsLib from 'pdfjs-dist/build/pdf.mjs';
 import { SilenceScanner } from '../../phase6/redline/SilenceScanner';
 
-// Setup worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+// Setup worker locally (offline-ready, zero CDN dependency)
+if (typeof window !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+}
 
 export class DocumentAnalyzer {
   static async extractText(file) {
@@ -15,7 +17,7 @@ export class DocumentAnalyzer {
           const pdf = await pdfjsLib.getDocument(typedarray).promise;
           let fullText = "";
           
-          // Read up to first 5 pages to save memory
+          // Read up to first 5 pages to save memory and ensure responsive on-device execution
           const maxPages = Math.min(pdf.numPages, 5);
           for (let i = 1; i <= maxPages; i++) {
             const page = await pdf.getPage(i);
@@ -23,6 +25,12 @@ export class DocumentAnalyzer {
             const pageText = textContent.items.map(item => item.str).join(" ");
             fullText += pageText + "\n\n";
           }
+          
+          // Explicit warning notice for multi-page contract truncation
+          if (pdf.numPages > 5) {
+            fullText += `\n[NOTICE: Document contains ${pdf.numPages} pages. First 5 pages were processed for on-device analysis. Remaining ${pdf.numPages - 5} pages omitted.]\n`;
+          }
+          
           resolve(fullText);
         } catch (err) {
           reject(err);

@@ -1,6 +1,6 @@
 // src/phase5/vault/EvidenceVault.jsx
 import { useState, useRef, useEffect } from 'react';
-import { ShieldCheck, UploadCloud, Copy, Terminal, Clock, Anchor, Download, FolderOpen, Key, AlertTriangle, FileCode, FileCheck } from 'lucide-react';
+import { ShieldCheck, UploadCloud, Copy, Terminal, Clock, Anchor, Download, FolderOpen, Key, AlertTriangle, FileCode, FileCheck, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { jsPDF } from 'jspdf';
 import { EvidenceHasher } from './EvidenceHasher';
@@ -8,6 +8,72 @@ import { TSAService } from './TSAService';
 import { BlockchainNotary } from './BlockchainNotary';
 import { BackupManager } from './BackupManager';
 import { useStore } from '../../store';
+
+const BLOB_DB_NAME = 'LawForgeEvidenceBlobs';
+const BLOB_STORE_NAME = 'blobs';
+
+function openEvidenceDB() {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined' || !window.indexedDB) {
+      resolve(null);
+      return;
+    }
+    const req = window.indexedDB.open(BLOB_DB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(BLOB_STORE_NAME)) {
+        db.createObjectStore(BLOB_STORE_NAME, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => resolve(null);
+  });
+}
+
+async function saveEvidenceBlob(id, file) {
+  try {
+    const db = await openEvidenceDB();
+    if (!db) return false;
+    const arrayBuffer = await file.arrayBuffer();
+    return new Promise((resolve) => {
+      const tx = db.transaction([BLOB_STORE_NAME], 'readwrite');
+      const store = tx.objectStore(BLOB_STORE_NAME);
+      store.put({ id, name: file.name, type: file.type || 'application/octet-stream', data: arrayBuffer, savedAt: Date.now() });
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => resolve(false);
+    });
+  } catch (e) {
+    console.warn("Failed to save evidence blob to IndexedDB:", e);
+    return false;
+  }
+}
+
+async function getEvidenceBlob(id) {
+  try {
+    const db = await openEvidenceDB();
+    if (!db) return null;
+    return new Promise((resolve) => {
+      const tx = db.transaction([BLOB_STORE_NAME], 'readonly');
+      const store = tx.objectStore(BLOB_STORE_NAME);
+      const req = store.get(id);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => resolve(null);
+    });
+  } catch {
+    return null;
+  }
+}
+
+async function deleteEvidenceBlob(id) {
+  try {
+    const db = await openEvidenceDB();
+    if (!db) return;
+    const tx = db.transaction([BLOB_STORE_NAME], 'readwrite');
+    tx.objectStore(BLOB_STORE_NAME).delete(id);
+  } catch {
+    // Graceful fallback
+  }
+}
 
 export function EvidenceVault() {
   const [logs, setLogs] = useState([]);
@@ -50,6 +116,7 @@ export function EvidenceVault() {
       const timestamp = new Date().toISOString();
       
       const uuid = crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now();
+      const savedBlob = await saveEvidenceBlob(uuid, file);
 
       const newLog = {
         id: uuid,
@@ -57,12 +124,13 @@ export function EvidenceVault() {
         size: (file.size / 1024).toFixed(1) + ' KB',
         hash,
         timestamp,
+        hasBlob: savedBlob,
         tsaReceipt: null,
         l2Receipt: null
       };
 
       saveLogs([newLog, ...logs]);
-      setSuccessMsg(`Successfully calculated SHA-256 fingerprint for ${file.name}`);
+      setSuccessMsg(`Fingerprinted and stored ${file.name} in local Evidence Vault`);
     } catch (err) {
       console.error("Hashing failed", err);
       setErrorMsg("Failed to compute hash fingerprint.");
@@ -70,6 +138,36 @@ export function EvidenceVault() {
       setIsHashing(false);
       if (fileRef.current) fileRef.current.value = '';
     }
+  };
+
+  const handleDownloadOriginalFile = async (log) => {
+    try {
+      const record = await getEvidenceBlob(log.id);
+      if (!record || !record.data) {
+        setErrorMsg(`Original file data for "${log.name}" is not available locally.`);
+        return;
+      }
+      const blob = new Blob([record.data], { type: record.type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = record.name || log.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setSuccessMsg(`Downloaded original evidence file: ${log.name}`);
+    } catch (e) {
+      console.error(e);
+      setErrorMsg("Failed to download evidence file.");
+    }
+  };
+
+  const handleDeleteLog = async (logId) => {
+    const updated = logs.filter(l => l.id !== logId);
+    saveLogs(updated);
+    await deleteEvidenceBlob(logId);
+    setSuccessMsg("Evidence record removed from local vault.");
   };
 
   const triggerTimestamp = async (logId) => {
@@ -315,7 +413,7 @@ export function EvidenceVault() {
         <div>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 600, margin: 0 }}>Zero-Trust Evidence Vault</h3>
           <p style={{ fontSize: '0.8rem', color: 'var(--on-surface-variant)', margin: '0.2rem 0 0 0' }}>
-            Local SHA-256 fingerprinting, RFC-3161 notarization, and AES-GCM secure workspace backups.
+            Local IndexedDB file storage, SHA-256 integrity fingerprinting, and simulated client-side L2/TSA proofs.
           </p>
         </div>
         <span className="badge" style={{ marginLeft: 'auto', background: 'rgba(16,185,129,0.1)', color: '#10b981', padding: '0.25rem 0.6rem', borderRadius: '4px', fontSize: '0.75rem' }}>
@@ -427,9 +525,14 @@ export function EvidenceVault() {
                       {new Date(log.timestamp).toLocaleString()} • {log.size}
                     </p>
                   </div>
-                  <button onClick={() => copyText(log.hash)} className="btn-glass" title="Copy SHA-256" style={{ padding: '0.3rem', borderRadius: '4px' }}>
-                    <Copy size={12} />
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <button onClick={() => copyText(log.hash)} className="btn-glass" title="Copy SHA-256" style={{ padding: '0.3rem', borderRadius: '4px' }}>
+                      <Copy size={12} />
+                    </button>
+                    <button onClick={() => handleDeleteLog(log.id)} className="btn-glass" title="Delete Evidence Record" style={{ padding: '0.3rem', borderRadius: '4px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }}>
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -444,11 +547,11 @@ export function EvidenceVault() {
                     {log.tsaReceipt ? (
                       <div style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.7rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#60a5fa', fontWeight: 600, marginBottom: '0.15rem' }}>
-                          <Clock size={12} /> Certified Timestamp
+                          <Clock size={12} /> Timestamp Receipt (Simulated)
                         </div>
                         <p style={{ margin: 0, color: 'rgba(255,255,255,0.7)', fontFamily: 'monospace', fontSize: '0.65rem' }}>
                           Serial: {log.tsaReceipt.serialNumber}<br />
-                          TSA: {log.tsaReceipt.authority}
+                          Authority: {log.tsaReceipt.authority}
                         </p>
                       </div>
                     ) : (
@@ -457,9 +560,10 @@ export function EvidenceVault() {
                         disabled={loadingAction === `tsa-${log.id}`}
                         className="btn-glass"
                         style={{ width: '100%', fontSize: '0.7rem', padding: '0.35rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.3rem', borderColor: 'rgba(59,130,246,0.3)' }}
+                        title="Generate client-side cryptographic timestamp receipt"
                       >
                         <Clock size={12} color="#3b82f6" />
-                        {loadingAction === `tsa-${log.id}` ? 'Signing...' : 'Request RFC-3161 TSA'}
+                        {loadingAction === `tsa-${log.id}` ? 'Signing...' : 'Simulate RFC-3161 TSA'}
                       </button>
                     )}
                   </div>
@@ -469,7 +573,7 @@ export function EvidenceVault() {
                     {log.l2Receipt ? (
                       <div style={{ background: 'rgba(167,139,250,0.05)', border: '1px solid rgba(167,139,250,0.2)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.7rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#a78bfa', fontWeight: 600, marginBottom: '0.15rem' }}>
-                          <Anchor size={12} /> Anchored Proof
+                          <Anchor size={12} /> L2 Anchor (Simulated)
                         </div>
                         <p style={{ margin: 0, color: 'rgba(255,255,255,0.7)', fontFamily: 'monospace', fontSize: '0.65rem', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           Block: {log.l2Receipt.blockNumber}<br />
@@ -482,31 +586,40 @@ export function EvidenceVault() {
                         disabled={loadingAction === `l2-${log.id}`}
                         className="btn-glass"
                         style={{ width: '100%', fontSize: '0.7rem', padding: '0.35rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.3rem', borderColor: 'rgba(167,139,250,0.3)' }}
+                        title="Simulate gasless L2 anchor meta-transaction"
                       >
                         <Anchor size={12} color="#a78bfa" />
-                        {loadingAction === `l2-${log.id}` ? 'Anchoring...' : 'Register L2 Anchor'}
+                        {loadingAction === `l2-${log.id}` ? 'Anchoring...' : 'Simulate L2 Anchor'}
                       </button>
                     )}
                   </div>
                 </div>
 
-                {/* Proof & PDF Export Actions */}
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.4rem', borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '0.5rem' }}>
+                {/* Proof, PDF & Original File Download Actions */}
+                <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '0.5rem', flexWrap: 'wrap' }}>
+                  <button 
+                    onClick={() => handleDownloadOriginalFile(log)}
+                    className="btn-glass"
+                    style={{ flex: 1, minWidth: '100px', fontSize: '0.7rem', padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', color: 'var(--secondary)', borderColor: 'rgba(0,227,253,0.3)' }}
+                    title="Download the original stored document from local IndexedDB vault"
+                  >
+                    <Download size={12} /> Download File
+                  </button>
                   <button 
                     onClick={() => handleExportProofJSON(log)}
                     className="btn-glass"
-                    style={{ flex: 1, fontSize: '0.7rem', padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', color: '#10b981', borderColor: 'rgba(16,185,129,0.3)' }}
-                    title="Download RFC-3161 JSON Cryptographic Manifest"
+                    style={{ flex: 1, minWidth: '100px', fontSize: '0.7rem', padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', color: '#10b981', borderColor: 'rgba(16,185,129,0.3)' }}
+                    title="Download JSON Cryptographic Manifest"
                   >
-                    <FileCode size={12} /> Export Proof (.proof.json)
+                    <FileCode size={12} /> Manifest (.json)
                   </button>
                   <button 
                     onClick={() => handleExportPDFDossier(log)}
                     className="btn-glass"
-                    style={{ flex: 1, fontSize: '0.7rem', padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', color: 'var(--primary)', borderColor: 'rgba(186,158,255,0.3)' }}
+                    style={{ flex: 1, minWidth: '100px', fontSize: '0.7rem', padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', color: 'var(--primary)', borderColor: 'rgba(186,158,255,0.3)' }}
                     title="Generate PDF Certificate of Cryptographic Custody"
                   >
-                    <FileCheck size={12} /> PDF Chain of Custody
+                    <FileCheck size={12} /> Custody PDF
                   </button>
                 </div>
 

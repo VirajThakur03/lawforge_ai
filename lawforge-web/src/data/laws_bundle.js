@@ -753,6 +753,24 @@ const LAWS_AU = {
     defenses:["Unlawful arrest — no reasonable grounds.","Evidence obtained by illegal search — inadmissible.","Breach of Evidence Act caution."],
     reduce:["Early guilty plea — reduced sentence.","Attend rehabilitation programs for drug/alcohol offences."],
     resources:[{name:"Legal Aid NSW",url:"https://www.legalaid.nsw.gov.au"},{name:"Law Enforcement Conduct Commission",url:"https://www.lecc.nsw.gov.au"}]
+  },
+  Consumer:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Competition and Consumer Act 2010 (ACL)",section:"Schedule 2, Section 54",note:"Guarantee of acceptable quality for consumer goods."},{name:"Competition and Consumer Act 2010 (ACL)",section:"Section 259",note:"Consumer remedies against suppliers for major failure — refund, replacement, or repair."}],
+    penalties:[{type:"Misleading consumer conduct",value:"Civil penalties up to $50M for corporations; full compensation for consumers"}],
+    rights:["Right to automatic consumer guarantees.","Right to choose refund or replacement for major failure.","Signs saying 'No Refunds' are illegal under ACL."],
+    steps:["Contact seller in writing with receipt.","State exact remedy requested under ACL Section 259.","Lodge complaint with ACCC or State Fair Trading tribunal."],
+    defenses:["Abnormal use of product by consumer."],
+    reduce:["Free mediation through NSW Fair Trading / VCAT."],
+    resources:[{name:"ACCC",url:"https://www.accc.gov.au"},{name:"NSW Fair Trading",url:"https://www.fairtrading.nsw.gov.au"}]
+  },
+  Property:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Residential Tenancies Act 2010 (NSW)",section:"Section 85",note:"Mandatory written notice period before tenancy termination."},{name:"Residential Tenancies Act 2010 (NSW)",section:"Section 119",note:"Prohibition on self-help eviction without NCAT tribunal order."}],
+    penalties:[{type:"Unlawful lock-out / eviction",value:"Civil damages + up to $22,000 fine for landlord"}],
+    rights:["Landlords cannot lock out tenants without NCAT tribunal order.","Right to quiet enjoyment of rented premises.","Rental bonds must be lodged with official bond board."],
+    steps:["Do not vacate upon verbal demand.","Request official termination notice in writing.","Apply to NCAT / VCAT to contest notice before termination date."],
+    defenses:["Retaliatory eviction for requesting repairs.","Defective notice period."],
+    reduce:["Tenants Union provides free legal advocacy."],
+    resources:[{name:"Tenants' Union of NSW",url:"https://www.tenants.org.au"},{name:"NCAT",url:"https://www.ncat.nsw.gov.au"}]
   }
 };
 
@@ -774,6 +792,24 @@ const LAWS_CA = {
     defenses:["Constructive dismissal — forced to resign due to employer's actions.","Just cause dismissal contested — employer must prove cause clearly."],
     reduce:["Negotiate severance package before signing release.","HRTO mediation is free and faster than full hearing."],
     resources:[{name:"Ontario Human Rights Tribunal",url:"https://www.hrto.ca"},{name:"Service Canada (EI)",url:"https://www.canada.ca/en/services/benefits/ei.html"},{name:"Legal Aid Ontario",url:"https://www.legalaid.on.ca"}]
+  },
+  Consumer:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Consumer Protection Act 2002 (Ontario)",section:"Section 14/15",note:"Prohibits unfair practices and false, misleading or deceptive representations."},{name:"Consumer Protection Act 2002",section:"Section 18",note:"Right to rescind contract within 1 year for unfair practice; right to full refund."}],
+    penalties:[{type:"Deceptive trade practice",value:"Full restitution + up to $50,000 fine for individuals; $250,000 for corporations"}],
+    rights:["Mandatory 10-day cooling-off period for certain contracts.","Right to clear written statement of total price before purchase.","Unsolicited goods may be kept without payment obligation."],
+    steps:["Send written notice of cancellation citing Section 18 of Consumer Protection Act.","Demand refund within 15 days.","File formal complaint with Ministry of Public and Business Service Delivery."],
+    defenses:["Seller provided accurate disclosures signed by consumer."],
+    reduce:["Small Claims Court in Ontario handles disputes up to $35,000 without lawyer."],
+    resources:[{name:"Consumer Protection Ontario",url:"https://www.ontario.ca/page/consumer-protection-ontario"},{name:"Office of Consumer Affairs Canada",url:"https://ised-isde.canada.ca/site/office-consumer-affairs"}]
+  },
+  Property:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Residential Tenancies Act 2006 (Ontario)",section:"Section 48",note:"Notice of termination for landlord's own personal use requires 60 days notice and 1 month compensation."},{name:"Residential Tenancies Act 2006",section:"Section 39",note:"Illegal lock-outs: landlord cannot change locks without Landlord and Tenant Board order."}],
+    penalties:[{type:"Illegal eviction / bad faith notice",value:"Up to $50,000 fine + 1 year rent abatement to tenant"}],
+    rights:["Tenants can only be evicted by official order of the Landlord and Tenant Board (LTB).","Right to dispute eviction notice at an LTB hearing.","Security deposits beyond last month's rent are illegal in Ontario."],
+    steps:["Do not move out upon receiving an eviction notice.","Wait for LTB hearing notice.","File tenant application T2 for illegal entry or harassment."],
+    defenses:["Bad faith eviction notice.","Retaliation for asking for maintenance."],
+    reduce:["Community legal clinics provide free advice to tenants."],
+    resources:[{name:"Landlord and Tenant Board (LTB)",url:"https://tribunalsontario.ca/ltb"},{name:"ACTO Advocacy Centre for Tenants Ontario",url:"https://www.acto.ca"}]
   }
 };
 
@@ -846,6 +882,33 @@ const LAWS_SG = {
     defenses:["Illegal arrest — no lawful authority.","Evidence improperly obtained."],
     reduce:["Early voluntary surrender and cooperation can be mitigating.","First-time offence considered in sentencing for minor offences."],
     resources:[{name:"Legal Aid Bureau",url:"https://lab.mlaw.gov.sg"},{name:"Singapore Courts",url:"https://www.judiciary.gov.sg"}]
+  },
+  Workplace:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Employment Act (Cap 91)",section:"Section 10/11",note:"Notice of termination requirements and pay in lieu of notice."},{name:"Employment Act (Cap 91)",section:"Section 14",note:"Dismissal without notice only permissible after due inquiry into gross misconduct."},{name:"Tripartite Guidelines on Wrongful Dismissal",section:"Standard 2024",note:"Wrongful dismissal claims routed to TADM and Employment Claims Tribunals (ECT)."}],
+    penalties:[{type:"Wrongful dismissal",value:"ECT award up to $20,000 ($30,000 with union backing) for compensation/reinstatement"}],
+    rights:["Right to salary paid at least once monthly within 7 days after salary period.","Right to statutory notice period or salary in lieu.","Right to file claim with TADM within 1 month of dismissal."],
+    steps:["File an online mediation request with TADM within 1 month.","Attend TADM mediation session.","If unresolved, request claim referral to Employment Claims Tribunals (ECT)."],
+    defenses:["Proper due inquiry conducted with documented evidence.","Clear breach of employment agreement."],
+    reduce:["Over 85% of employment disputes settled at TADM mediation."],
+    resources:[{name:"Tripartite Alliance for Dispute Management (TADM)",url:"https://www.tadm.sg"},{name:"Ministry of Manpower (MOM)",url:"https://www.mom.gov.sg"}]
+  },
+  Consumer:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Consumer Protection (Fair Trading) Act (CPFTA)",section:"Section 4",note:"Prohibits unfair practices, false claims, and unconscionable tactics."},{name:"CPFTA Lemon Law",section:"Part III",note:"Defective goods within 6 months presumed defective at delivery; repair, replacement, or refund required."}],
+    penalties:[{type:"Unfair trade practice",value:"Court injunctions + full consumer restitution"}],
+    rights:["Lemon Law protection for defective goods within 6 months of delivery.","Right to cancel certain consumer contracts within 5 days (e.g. direct sales, timeshares)."],
+    steps:["Notify retailer in writing of defect citing CPFTA Lemon Law.","Allow retailer reasonable opportunity to repair or replace.","If refused, lodge dispute with CASE or file with Small Claims Tribunals (SCT)."],
+    defenses:["Product damaged by consumer misuse."],
+    reduce:["Small Claims Tribunal allows claims up to $20,000 without lawyers."],
+    resources:[{name:"Consumers Association of Singapore (CASE)",url:"https://www.case.org.sg"},{name:"State Courts Small Claims Tribunals",url:"https://www.judiciary.gov.sg"}]
+  },
+  Property:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Civil Law Act (Cap 43)",section:"Section 6",note:"Lease agreements exceeding 3 years must be in writing and deed."},{name:"Distress Act (Cap 84)",section:"Section 5",note:"Landlords cannot seize tenant property without court warrant for rent arrears."}],
+    penalties:[{type:"Unlawful lock-out / self-help eviction",value:"Civil tort damages + police trespass injunction"}],
+    rights:["Right to peaceful possession under tenancy agreement.","Security deposit must be returned per tenancy agreement terms.","Disputes up to $20,000 can be resolved quickly via Small Claims Tribunals."],
+    steps:["Review lease terms for termination and diplomatic clauses.","Attempt mediation at Singapore Mediation Centre or CASE.","File claim at Small Claims Tribunals for deposit withholding."],
+    defenses:["Tenant non-payment of rent.","Tenant breach of unauthorized subletting."],
+    reduce:["Tenancy dispute mediation is fast and cost-effective."],
+    resources:[{name:"Singapore Mediation Centre",url:"https://www.mediation.com.sg"},{name:"State Courts Singapore",url:"https://www.judiciary.gov.sg"}]
   }
 };
 
@@ -921,6 +984,33 @@ const LAWS_BD = {
     defenses:["Defective signage.","Emergency situation."],
     reduce:["Magistrate discretion for first offences.","Keep vehicle documents current."],
     resources:[{name:"Bangladesh Road Transport Authority (BRTA)",url:"https://www.brta.gov.bd"},{name:"Legal Aid Services Trust",url:"https://www.last.org.bd"}]
+  },
+  Workplace:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Bangladesh Labour Act 2006 (Amended 2013/2018)",section:"Section 26 & 27",note:"Notice and termination compensation requirements."},{name:"Bangladesh Labour Act 2006",section:"Section 121",note:"Time of payment of wages."},{name:"Bangladesh Labour Act 2006",section:"Section 33",note:"Grievance procedure before Labour Court."}],
+    penalties:[{type:"Unpaid wages / illegal dismissal",value:"30 days wages per completed year of service + outstanding pay"}],
+    rights:["Right to written letter of appointment and service book.","16 weeks paid maternity leave under Section 46.","Right to file grievance with employer within 30 days, then Labour Court."],
+    steps:["Submit written grievance notice to employer within 30 days of grievance.","If unresolved within 30 days, file complaint with Labour Court within next 30 days.","Seek assistance from Department of Inspection for Factories and Establishments (DIFE)."],
+    defenses:["Termination without procedural inquiry or show-cause notice.","Retaliation for trade union participation."],
+    reduce:["Labour Court mediation is accessible and does not require court stamp fees for workers."],
+    resources:[{name:"Department of Inspection for Factories and Establishments (DIFE)",url:"https://dife.gov.bd"},{name:"Bangladesh Labour Courts",url:"http://labourcourt.gov.bd"}]
+  },
+  Consumer:{severity:"LOW",urgent:null,
+    laws:[{name:"Consumers' Right Protection Act 2009",section:"Sections 37–53",note:"Penalties for deceptive practices, adulteration, and price gouging."}],
+    penalties:[{type:"Deceptive trading / expired goods",value:"Fines up to ৳2,00,000 or up to 3 years imprisonment (complainant receives 25% of fine)"}],
+    rights:["Right to receive 25% of any administrative fine levied against violator.","Right to replacement or refund for defective products with invoice.","Right to true disclosure of weight, ingredients, and MRP."],
+    steps:["Collect proof of purchase (challan, invoice, photo).","File complaint with Directorate of National Consumer Rights Protection (DNCRP) within 30 days.","Attend DNCRP arbitration / hearing."],
+    defenses:["Product used contrary to manufacturer instructions."],
+    reduce:["DNCRP settlement proceedings resolve consumer disputes rapidly without formal court fees."],
+    resources:[{name:"Directorate of National Consumer Rights Protection (DNCRP)",url:"https://dncrp.portal.gov.bd"},{name:"Consumers Association of Bangladesh (CAB)",url:"https://consumerbd.org"}]
+  },
+  Property:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Premises Rent Control Act 1991",section:"Section 18",note:"Protection of tenants against illegal ejectment."},{name:"Transfer of Property Act 1882",section:"Section 106",note:"Duration and notice requirements for monthly leases."}],
+    penalties:[{type:"Illegal eviction / lock-out",value:"Civil restoration order + compensation for wrongful dispossession"}],
+    rights:["Landlord cannot evict without formal court decree from Civil Court.","Rent can only be increased per legal standard rent regulations.","Right to rent receipt from landlord on each payment."],
+    steps:["Demand written rent receipt upon payment; if refused, deposit rent with Rent Controller via money order.","Keep all utility bill receipts and written lease agreements.","If threatened with eviction, file injunction suit in local Senior Assistant Judge Court."],
+    defenses:["Tenant complied with all rent obligations on time.","Notice under Section 106 defective or not served."],
+    reduce:["Deposit rent with Rent Controller to prevent default pretext."],
+    resources:[{name:"District Civil Courts (Bangladesh Judiciary)",url:"https://supremecourt.gov.bd"},{name:"Bangladesh Legal Aid and Services Trust (BLAST)",url:"https://www.blast.org.bd"}]
   }
 };
 
@@ -933,6 +1023,33 @@ const LAWS_MY = {
     defenses:["Camera malfunction.","Incorrect vehicle data."],
     reduce:["Discount periods announced by JPJ — up to 50% off compound.","Attend defensive driving course."],
     resources:[{name:"JPJ Malaysia",url:"https://www.jpj.gov.my"},{name:"Royal Malaysia Police",url:"https://www.rmp.gov.my"}]
+  },
+  Workplace:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Employment Act 1955 (Amended 2022)",section:"Section 12",note:"Notice of termination requirements (4 to 8 weeks)."},{name:"Industrial Relations Act 1967",section:"Section 20",note:"Representations on dismissals without just cause or excuse."}],
+    penalties:[{type:"Unfair dismissal",value:"Industrial Court award of up to 24 months back wages or reinstatement"}],
+    rights:["Right to file representation at Industrial Relations Dept within 60 days of termination.","Statutory maximum 45 hours per work week.","98 days paid maternity leave and 7 days paid paternity leave."],
+    steps:["Lodge written representation under Section 20 with Industrial Relations Department (JPP) within 60 days.","Attend mandatory conciliation meeting with employer at JPP.","If conciliation fails, case is referred to Industrial Court."],
+    defenses:["Dismissal lacked procedural fairness (no domestic inquiry).","Redundancy was not genuine under Code of Conduct for Industrial Harmony."],
+    reduce:["JPP conciliation is free and settles over 65% of disputes without court trials."],
+    resources:[{name:"Department of Industrial Relations Malaysia (JPP)",url:"https://jpp.mohr.gov.my"},{name:"Industrial Court of Malaysia",url:"https://mp.mohr.gov.my"}]
+  },
+  Consumer:{severity:"LOW",urgent:null,
+    laws:[{name:"Consumer Protection Act 1999 (Act 599)",section:"Part II & Part XII",note:"Statutory guarantees and Tribunal for Consumer Claims."}],
+    penalties:[{type:"Unfair business practice / defective product",value:"Tribunal awards up to RM50,000 + criminal fines under Section 25"}],
+    rights:["Statutory guarantee of acceptable quality and reasonable fitness for purpose.","Right to lodge claim without legal representation at Tribunal for Consumer Claims (TTPM).","Protection against deceptive pricing and bait advertising."],
+    steps:["Collect invoices, warranties, and communication records.","File e-Tribunal claim at ttpm.kpdn.gov.my with nominal RM5 filing fee.","Serve Notice of Hearing (Form 1) on respondent."],
+    defenses:["Consumer altered or misused product contrary to instructions."],
+    reduce:["TTPM disputes are resolved in hearing sessions within 60 days without lawyer fees."],
+    resources:[{name:"Tribunal for Consumer Claims Malaysia (TTPM)",url:"https://ttpm.kpdn.gov.my"},{name:"Ministry of Domestic Trade (KPDN)",url:"https://www.kpdn.gov.my"}]
+  },
+  Property:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Specific Relief Act 1950",section:"Section 7(2)",note:"Landlord cannot enforce possession without court order (no self-help eviction)."},{name:"Distress Act 1951",section:"Section 5",note:"Recovery of rent arrears via court warrant of distress."}],
+    penalties:[{type:"Self-help lockout / utility disconnection",value:"Civil tort trespass damages + mandatory injunction"}],
+    rights:["Landlords CANNOT cut electricity/water or change padlocks without an eviction court order.","Right to return of security deposit upon lease expiry minus documented damages.","Right to quiet possession of tenanted property."],
+    steps:["Document any illegal lockout or utility cuts with photos and police report.","Send formal legal notice demanding restoration of access.","File suit in Sessions Court or Magistrate Court for possession and damages."],
+    defenses:["Landlord eviction was illegal self-help under Section 7(2).","Tenancy agreement contained an invalid forfeiture clause."],
+    reduce:["Sessions Court mediation service provides rapid settlement for tenancy disputes."],
+    resources:[{name:"Malaysian Bar Council Legal Aid Centre",url:"https://www.malaysianbar.org.my"},{name:"National House Buyers Association (HBA)",url:"https://www.hba.org.my"}]
   }
 };
 
@@ -945,6 +1062,33 @@ const LAWS_NZ = {
     defenses:["Calibration error.","Demerit point reduction via safe driving recognition."],
     reduce:["Pay within 28 days to avoid late fee.","Safety Programme (Drive Safe) may apply for demerit reduction."],
     resources:[{name:"NZTA",url:"https://www.nzta.govt.nz"},{name:"Community Law Centres",url:"https://communitylaw.org.nz"}]
+  },
+  Workplace:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Employment Relations Act 2000",section:"Section 103",note:"Personal grievances for unjustifiable dismissal or action."},{name:"Holidays Act 2003",section:"Section 16",note:"4 weeks annual holiday entitlement."}],
+    penalties:[{type:"Unjustified dismissal",value:"Compensation for humiliation, loss of dignity (Section 123) + lost remuneration"}],
+    rights:["Right to raise a personal grievance within 90 days (12 months for sexual harassment).","Right to free Employment Mediation Services provided by MBIE.","Protection against unjustified disadvantage in employment."],
+    steps:["Raise personal grievance in writing with employer within 90 days.","Apply for free mediation via Employment New Zealand.","If unresolved, file statement of problem with Employment Relations Authority (ERA)."],
+    defenses:["Employer failed to follow fair process before dismissal (lack of consultation).","Genuine redundancy justification missing."],
+    reduce:["MBIE mediation service is free and resolves over 70% of employment disputes."],
+    resources:[{name:"Employment New Zealand",url:"https://www.employment.govt.nz"},{name:"Employment Relations Authority (ERA)",url:"https://www.era.govt.nz"}]
+  },
+  Consumer:{severity:"LOW",urgent:null,
+    laws:[{name:"Consumer Guarantees Act 1993 (CGA)",section:"Section 6",note:"Guarantee of acceptable quality for consumer goods."},{name:"Fair Trading Act 1986",section:"Section 9",note:"Prohibition of misleading and deceptive conduct."}],
+    penalties:[{type:"Faulty product / misleading claims",value:"Repair, replacement, or full refund + damages in Disputes Tribunal up to $30,000"}],
+    rights:["Goods must be acceptable in finish, fit for purpose, and durable.","Right to reject faulty goods for a full refund if fault is substantial.","Access to Disputes Tribunal without lawyers."],
+    steps:["Notify retailer of fault and request repair, replacement, or refund under CGA.","If retailer refuses, file claim at Disputes Tribunal online.","Pay small hearing fee ($45–$180 depending on claim value)."],
+    defenses:["Damage caused by abnormal use or failure to follow instructions."],
+    reduce:["Disputes Tribunal is informal, quick, and lawyers are generally not permitted."],
+    resources:[{name:"Consumer Protection NZ",url:"https://www.consumerprotection.govt.nz"},{name:"NZ Disputes Tribunal",url:"https://www.disputestribunal.govt.nz"}]
+  },
+  Property:{severity:"MEDIUM",urgent:null,
+    laws:[{name:"Residential Tenancies Act 1986",section:"Section 45",note:"Landlord responsibility for repairs and Healthy Homes Standards."},{name:"Residential Tenancies Act 1986",section:"Section 54",note:"Protection against retaliatory notice of termination."}],
+    penalties:[{type:"Breach of Healthy Homes / retaliatory notice",value:"Exemplary damages up to $7,200 + compensation in Tenancy Tribunal"}],
+    rights:["Tenancy bond must be lodged with Tenancy Services within 23 working days.","Protection against retaliatory eviction if tenant asserts legal rights.","Rental home must comply with heating, insulation, and ventilation standards."],
+    steps:["Serve 14-day Notice to Remedy on landlord for maintenance or repair failures.","Apply to Tenancy Tribunal online for tenancy dispute resolution.","Attend Tenancy Services mediation or Tribunal hearing."],
+    defenses:["Tenant caused intentional or careless damage to premises.","Valid termination notice served strictly under statutory grounds."],
+    reduce:["Tenancy Services telephone mediation is fast and accessible."],
+    resources:[{name:"Tenancy Services NZ",url:"https://www.tenancy.govt.nz"},{name:"Community Law NZ",url:"https://communitylaw.org.nz"}]
   }
 };
 

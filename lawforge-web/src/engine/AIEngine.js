@@ -130,9 +130,12 @@ export const AIEngine = {
         const fullPrompt = targetLanguage && targetLanguage !== 'en' 
             ? `${prompt}\n\nPlease respond in ${targetLanguage}.` 
             : prompt;
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-goog-api-key': apiKey
+            },
             body: JSON.stringify({
                 contents: [{ parts: [{ text: fullPrompt }] }]
             })
@@ -296,27 +299,32 @@ export const AIEngine = {
             contents: [{ parts: [{ text: `Active Jurisdiction: ${countryName}. Current Year: ${new Date().getFullYear()}. Research and cite the latest statutes, amendments, and legal updates for: ${situationText}` }] }]
         };
 
+        const reqHeaders = { 
+            'Content-Type': 'application/json',
+            'x-goog-api-key': apiKey
+        };
+
         let response;
         try {
             // Attempt with live Google Search Grounding for real-time legal updates
-            response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: reqHeaders,
                 body: JSON.stringify({ ...basePayload, tools: [{ google_search: {} }] })
             });
 
             if (!response.ok) {
                 // Graceful fallback to standard request if search tool is restricted by key quota
-                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: reqHeaders,
                     body: JSON.stringify(basePayload)
                 });
             }
         } catch {
-            response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: reqHeaders,
                 body: JSON.stringify(basePayload)
             });
         }
